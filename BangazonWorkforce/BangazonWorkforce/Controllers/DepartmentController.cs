@@ -9,6 +9,18 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using BangazonWorkforce.Models;
 
+/*
+ * Class: DepartmentController
+ * Purpose: The DepartmentController searches the database and returns all Departments  
+ * Author: gw
+ * Methods:
+ *   DepartmentController(database context) - constructor function that sets the database context
+ *       variable - the Banagazon database context
+ *   Index(integer variable) - this method traverses the database Department table and return the Name, and budget for the Department.
+ *   It will then go into the Employee table and list each Employee associated with a specific department.
+ *       
+ */
+
 namespace BangazonWorkforce.Controllers
 {
     public class DepartmentController : Controller
