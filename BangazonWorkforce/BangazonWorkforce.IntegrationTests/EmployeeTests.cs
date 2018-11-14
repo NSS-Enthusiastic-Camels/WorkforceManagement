@@ -91,15 +91,6 @@ namespace BangazonWorkforce.IntegrationTests
                 lastRow.QuerySelectorAll("td"),
                 td => td.TextContent.Contains(departmentName));
 
-            IHtmlInputElement cb = (IHtmlInputElement)lastRow.QuerySelector("input[type='checkbox']");
-            if (isSupervisor == "true")
-            {
-                Assert.True(cb.IsChecked);
-            }
-            else
-            {
-                Assert.False(cb.IsChecked);
-            }
         }
 
         [Fact]
@@ -150,15 +141,6 @@ namespace BangazonWorkforce.IntegrationTests
                 lastRow.QuerySelectorAll("td"),
                 td => td.TextContent.Contains(departmentName));
 
-            IHtmlInputElement cb = (IHtmlInputElement)lastRow.QuerySelector("input[type='checkbox']");
-            if (isSupervisor == "true")
-            {
-                Assert.True(cb.IsChecked);
-            }
-            else
-            {
-                Assert.False(cb.IsChecked);
-            }
         }
 
         private async Task<List<Employee>> GetAllEmloyees()
