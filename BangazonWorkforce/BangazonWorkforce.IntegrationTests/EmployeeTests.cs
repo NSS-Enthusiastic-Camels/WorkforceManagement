@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 using Dapper;
+using AngleSharp.Dom;
 
 namespace BangazonWorkforce.IntegrationTests
 {
@@ -37,6 +38,12 @@ namespace BangazonWorkforce.IntegrationTests
             response.EnsureSuccessStatusCode(); // Status Code 200-299
             Assert.Equal("text/html; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
+
+            IHtmlDocument indexPage = await HtmlHelpers.GetDocumentAsync(response);
+            IHtmlCollection<IElement> tds = indexPage.QuerySelectorAll("td");
+            Assert.Contains(tds, td => td.TextContent.Contains("Dejan"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Stjepanovic"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Marketing"));
         }
 
 
