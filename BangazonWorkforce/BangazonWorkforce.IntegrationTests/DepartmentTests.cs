@@ -34,38 +34,38 @@ namespace BangazonWorkforce.IntegrationTests
                 response.Content.Headers.ContentType.ToString());
         }
 
-        [Fact]
-        public async Task Post_CreateAddsDepartment()
-        {
-            // Arrange
-            string url = "/department/create";
-            HttpResponseMessage createPageResponse = await _client.GetAsync(url);
-            IHtmlDocument createPage = await HtmlHelpers.GetDocumentAsync(createPageResponse);
+        //[Fact]
+        //public async Task Post_CreateAddsDepartment()
+        //{
+        //    // Arrange
+        //    string url = "/department/create";
+        //    HttpResponseMessage createPageResponse = await _client.GetAsync(url);
+        //    IHtmlDocument createPage = await HtmlHelpers.GetDocumentAsync(createPageResponse);
 
-            string newDepartmentName = StringHelpers.EnsureMaxLength("Dept-" + Guid.NewGuid().ToString(), 55);
-            string newDepartmentBudget = new Random().Next().ToString();
-
-
-            // Act
-            HttpResponseMessage response = await _client.SendAsync(
-                createPage,
-                new Dictionary<string, string>
-                {
-                    {"Name", newDepartmentName},
-                    {"Budget", newDepartmentBudget}
-                });
+        //    string newDepartmentName = StringHelpers.EnsureMaxLength("Dept-" + Guid.NewGuid().ToString(), 55);
+        //    string newDepartmentBudget = new Random().Next().ToString();
 
 
-            // Assert
-            response.EnsureSuccessStatusCode();
+        //    // Act
+        //    HttpResponseMessage response = await _client.SendAsync(
+        //        createPage,
+        //        new Dictionary<string, string>
+        //        {
+        //            {"Name", newDepartmentName},
+        //            {"Budget", newDepartmentBudget}
+        //        });
 
-            IHtmlDocument indexPage = await HtmlHelpers.GetDocumentAsync(response);
-            Assert.Contains(
-                indexPage.QuerySelectorAll("td"), 
-                td => td.TextContent.Contains(newDepartmentName));
-            Assert.Contains(
-                indexPage.QuerySelectorAll("td"), 
-                td => td.TextContent.Contains(newDepartmentBudget));
-        }
+
+        //    // Assert
+        //    response.EnsureSuccessStatusCode();
+
+        //    IHtmlDocument indexPage = await HtmlHelpers.GetDocumentAsync(response);
+        //    Assert.Contains(
+        //        indexPage.QuerySelectorAll("td"), 
+        //        td => td.TextContent.Contains(newDepartmentName));
+        //    Assert.Contains(
+        //        indexPage.QuerySelectorAll("td"), 
+        //        td => td.TextContent.Contains(newDepartmentBudget));
+        //}
     }
 }
