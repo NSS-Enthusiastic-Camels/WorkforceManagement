@@ -92,7 +92,7 @@ namespace BangazonWorkforce.IntegrationTests
             else
             {
                 Assert.False(cb.IsChecked);
-            } 
+            }
         }
 
         [Fact]
