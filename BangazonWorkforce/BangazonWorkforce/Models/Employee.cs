@@ -35,5 +35,10 @@ namespace BangazonWorkforce.Models
         public int DepartmentId { get; set; }
 
         public Department Department { get; set; }
+
+
+        //this field exists to hold a field for the compueter assigned to this.Employee
+        public Computer Computer { get; set; }
+        public IEnumerable<TrainingProgram> TrainingProgram { get; set;}
     }
 }
