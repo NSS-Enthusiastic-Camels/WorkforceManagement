@@ -51,7 +51,7 @@ namespace BangazonWorkforce.IntegrationTests
         public async Task Get_DetailReturnsSuccessAndCorrectContentType()
         {
             // Arrange
-            string url = "/employee/details {1}";
+            string url = "/employee/details/4";
 
             // Act
             HttpResponseMessage response = await _client.GetAsync(url);
@@ -62,13 +62,13 @@ namespace BangazonWorkforce.IntegrationTests
                 response.Content.Headers.ContentType.ToString());
 
             IHtmlDocument employeeDetailsPage = await HtmlHelpers.GetDocumentAsync(response);
-            IHtmlCollection<IElement> tds = employeeDetailsPage.QuerySelectorAll("td");
-            Assert.Contains(tds, td => td.TextContent.Contains("Gretchen"));
-            Assert.Contains(tds, td => td.TextContent.Contains("Ward"));
-            Assert.Contains(tds, td => td.TextContent.Contains("IT"));
-            Assert.Contains(tds, td => td.TextContent.Contains("Mac Book Pro"));
-            Assert.Contains(tds, td => td.TextContent.Contains("Apple"));
-            Assert.Contains(tds, td => td.TextContent.Contains("Party Training"));
+            IHtmlCollection<IElement> dds = employeeDetailsPage.QuerySelectorAll("dd");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Kelly");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Cool");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Sales");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Mac Book Pro");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Apple");
+            Assert.Contains(dds, dd => dd.TextContent.Trim() == "Party Training");
         }
 
 

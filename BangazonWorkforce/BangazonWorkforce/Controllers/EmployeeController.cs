@@ -89,8 +89,8 @@ namespace BangazonWorkforce.Controllers
         
                        FROM Employee e 
                                
-                                JOIN ComputerEmployee on ComputerEmployee.EmployeeId = e.Id
-                                JOIN Computer c on c.Id = ComputerEmployee.ComputerId
+                                LEFT JOIN ComputerEmployee on ComputerEmployee.EmployeeId = e.Id
+                                LEFT JOIN Computer c on c.Id = ComputerEmployee.ComputerId
                                 LEFT JOIN Department d on d.Id =e.DepartmentId
                                 LEFT JOIN EmployeeTraining on EmployeeTraining.EmployeeId = e.Id
                                 LEFT JOIN TrainingProgram tp ON tp.Id = EmployeeTraining.TrainingProgramId 
@@ -111,6 +111,11 @@ namespace BangazonWorkforce.Controllers
                             model.FirstName = emp.FirstName;
                             model.LastName = emp.LastName;
                             model.DepartmentName = department.Name;
+                            
+                        }
+
+                        if (computer != null)
+                        {
                             model.ComputerManufacturer = computer.Manufacturer;
                             model.ComputerMake = computer.Make;
                         }
