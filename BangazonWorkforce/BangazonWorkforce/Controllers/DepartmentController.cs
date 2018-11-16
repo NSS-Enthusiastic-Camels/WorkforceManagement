@@ -39,7 +39,7 @@ namespace BangazonWorkforce.Controllers
         {
             _config = config;
         }
-
+        //Gretchen Ward- this adds the number of employees to the departments
         public async Task<IActionResult> Index()
         {
             using (IDbConnection conn = Connection)
