@@ -1,4 +1,4 @@
-﻿@model BangazonWorkforce.Models.Employee
+﻿@model BangazonWorkforce.Models.ViewModels.EmployeeDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -23,27 +23,40 @@
             @Html.DisplayFor(model => model.LastName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.IsSupervisor)
+            @Html.DisplayNameFor(model => model.DepartmentName)
         </dt>
         <dd>
-            @if (!Model.IsSupervisor)
-            {
-                <span>Yes</span>
-            }
-            else
-            {
-                <span>No</span>
-            }
+            @Html.DisplayFor(model => model.DepartmentName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DepartmentId)
+            @Html.DisplayNameFor(model => model.TrainingPrograms)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Department.Name)
+            @Html.DisplayFor(model => model.TrainingPrograms)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ComputerMake)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ComputerMake)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ComputerManufacturer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ComputerManufacturer)
+        </dd>
+        <dt>Training Program</dt>
+        <dd>
+        @foreach (var tpl in Model.TrainingPrograms)
+        { 
+            <dd>
+                @Html.DisplayFor(modelItem => tpl.Name)
+                </dd>
+        }
     </dl>
 </div>
-<div>
+@*<div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
