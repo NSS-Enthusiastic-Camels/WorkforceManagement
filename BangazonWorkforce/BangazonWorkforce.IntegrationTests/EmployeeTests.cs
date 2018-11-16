@@ -44,6 +44,31 @@ namespace BangazonWorkforce.IntegrationTests
             Assert.Contains(tds, td => td.TextContent.Contains("Dejan"));
             Assert.Contains(tds, td => td.TextContent.Contains("Stjepanovic"));
             Assert.Contains(tds, td => td.TextContent.Contains("Marketing"));
+            
+        }
+
+        [Fact]
+        public async Task Get_DetailReturnsSuccessAndCorrectContentType()
+        {
+            // Arrange
+            string url = "/employee/details {1}";
+
+            // Act
+            HttpResponseMessage response = await _client.GetAsync(url);
+
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+            Assert.Equal("text/html; charset=utf-8",
+                response.Content.Headers.ContentType.ToString());
+
+            IHtmlDocument employeeDetailsPage = await HtmlHelpers.GetDocumentAsync(response);
+            IHtmlCollection<IElement> tds = employeeDetailsPage.QuerySelectorAll("td");
+            Assert.Contains(tds, td => td.TextContent.Contains("Gretchen"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Ward"));
+            Assert.Contains(tds, td => td.TextContent.Contains("IT"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Mac Book Pro"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Apple"));
+            Assert.Contains(tds, td => td.TextContent.Contains("Party Training"));
         }
 
 

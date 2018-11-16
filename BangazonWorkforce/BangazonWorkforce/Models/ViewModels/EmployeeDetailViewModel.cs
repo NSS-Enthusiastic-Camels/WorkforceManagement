@@ -18,7 +18,6 @@ namespace BangazonWorkforce.Models.ViewModels
 
         public string ComputerManufacturer { get; set; }
        
-
         public List<TrainingProgram> TrainingPrograms { get; set; } = new List<TrainingProgram>();
     }
 }
