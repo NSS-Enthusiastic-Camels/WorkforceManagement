@@ -45,45 +45,31 @@ namespace BangazonWorkforce.Controllers
             using (IDbConnection conn = Connection)
             {
                 string sql = $@"
-            select
-                d.Id,
+            select               
                 d.Name,
-                d.Budget,            
-               count(e.Id) d.CountEmployees,
-				e.DepartmentId,
-				e.FirstName,
-				e.LastName,			
-				e.IsSupervisor			
+                d.Budget,                          
+				COUNT(e.DepartmentId) CountEmployees														
             FROM Department as d
-            LEFT JOIN Employee as e ON e.DepartmentId = d.Id
-             Group By d.Name, d.Budget";
+            JOIN Employee as e on e.DepartmentId = d.Id
+            Group By d.Name, d.Budget";
 
 
-                /*  SELECT d.Name, d.Budget, count(e.Id)
-From Department d
-Join Employee e on e.DepartmentId = d.Id
-Group By d.Name, d.Budget*/
-                IEnumerable<Department> departments = await conn.QueryAsync<Department, Employee, Department>(sql,
-                    (department,employee) =>
-                    {
-                        return department;
-                    });
-               
-       
+      
+                IEnumerable<Department> departments = await conn.QueryAsync<Department>(sql);
 
                 return View(departments);
             }
         }
-   
-        public async Task<IActionResult> Details(int? id) 
+
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            
 
-            
+
+
 
             Department department = await GetById(id.Value);
             if (department == null)
@@ -193,7 +179,7 @@ Group By d.Name, d.Budget*/
             {
                 string sql = $@"DELETE FROM Department WHERE id = {id}";
                 int rowsDeleted = await conn.ExecuteAsync(sql);
-                
+
                 if (rowsDeleted > 0)
                 {
                     return NotFound();
