@@ -44,7 +44,8 @@ namespace BangazonWorkforce.Controllers
                              ORDER BY e.Id";
                 IEnumerable<Employee> employees = await conn.QueryAsync<Employee, Department, Employee>(
                     sql,
-                    (employee, department) => {
+                    (employee, department) =>
+                    {
                         employee.Department = department;
                         return employee;
                     });
@@ -60,15 +61,78 @@ namespace BangazonWorkforce.Controllers
             {
                 return NotFound();
             }
-
-            Employee employee = await GetById(id.Value);
-            if (employee == null)
+            using (IDbConnection conn = Connection)
             {
-                return NotFound();
-            }
-            return View(employee);
-        }
+                Employee employee = await GetById(id.Value);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                string sql = $@"SELECT e.Id, 
+                                      e.FirstName,
+                                      e.LastName, 
+                                      e.IsSupervisor,
+                                      e.DepartmentId,
+                                      d.Id,
+                                      d.Name,
+                                      d.Budget,
+                                      c.Id,
+                                      c.PurchaseDate,
+                                      c.DecomissionDate,
+                                      c.Make,
+                                      c.Manufacturer,
+                                      tp.Id,
+                                      tp.Name,
+                                      tp.StartDate,
+                                      tp.EndDate,
+                                      tp.MaxAttendees
         
+                       FROM Employee e 
+                               
+                                LEFT JOIN ComputerEmployee on ComputerEmployee.EmployeeId = e.Id
+                                LEFT JOIN Computer c on c.Id = ComputerEmployee.ComputerId
+                                LEFT JOIN Department d on d.Id =e.DepartmentId
+                                LEFT JOIN EmployeeTraining on EmployeeTraining.EmployeeId = e.Id
+                                LEFT JOIN TrainingProgram tp ON tp.Id = EmployeeTraining.TrainingProgramId 
+
+                WHERE e.Id = {id} ";
+                //list async types passed to queary in order that was listed in Select statement
+
+                EmployeeDetailViewModel model = new EmployeeDetailViewModel();
+
+
+                IEnumerable<Employee> employees = await conn.QueryAsync<Employee, Department, Computer, TrainingProgram, Employee>(
+                    sql,
+                    (emp, department, computer, trainingProgram) =>
+                    {
+                        if (model.DepartmentName == null)
+                        {
+
+                            model.FirstName = emp.FirstName;
+                            model.LastName = emp.LastName;
+                            model.DepartmentName = department.Name;
+                            
+                        }
+
+                        if (computer != null)
+                        {
+                            model.ComputerManufacturer = computer.Manufacturer;
+                            model.ComputerMake = computer.Make;
+                        }
+
+                        if (!model.TrainingPrograms.Contains(trainingProgram))
+                        {
+                            model.TrainingPrograms.Add(trainingProgram);
+                        }
+                        return employee;
+                    });
+                return View(model);
+            }
+
+        }
+
+     
+
         // GET: Employee/Create
         public async Task<IActionResult> Create()
         {
@@ -216,7 +280,8 @@ namespace BangazonWorkforce.Controllers
                                  WHERE e.id = {id}";
                 IEnumerable<Employee> employees = await conn.QueryAsync<Employee, Department, Employee>(
                     sql,
-                    (employee, department) => {
+                    (employee, department) =>
+                    {
                         employee.Department = department;
                         return employee;
                     });
