@@ -7,9 +7,17 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class EmployeeDetailViewModel
     {
-        public Employee Employee { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string DepartmentName { get; set; }
+
+        public string ComputerMake { get; set; }
+
+        public string ComputerManufacturer { get; set; }
        
-        public Computer Computer { get; set; }
-        //public List<TrainingProgram> { get; set;}
+        public List<TrainingProgram> TrainingPrograms { get; set; } = new List<TrainingProgram>();
     }
 }
