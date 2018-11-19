@@ -1,26 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Linq;
+﻿//using Microsoft.AspNetCore.Mvc.Rendering;
+//using System.Collections.Generic;
+//using System.Linq;
 
-namespace BangazonWorkforce.Models
-{
-    public class EmployeeAddEditViewModel
-    {// this gets the information from the sql database
-        public Employee Employee { get; set; }
-        public List<Department> AllDepartments { get; set; }
-        public List<SelectListItem> AllDepartmentOptions
-        {
-            get
-            {
-                if (AllDepartments == null)
-                {
-                    return null;
-                }
+//namespace BangazonWorkforce.Models
+//{
+//    public class EmployeeEditViewModel
+//    {// this gets the information from the sql database
+//        public Employee Employee { get; set; }
+//        public List<Department> AllDepartments { get; set; }
+//        public List<SelectListItem> AllDepartmentOptions
+//        {
+//            get
+//            {
+//                if (AllDepartments == null)
+//                {
+//                    return null;
+//                }
 
-                return AllDepartments
-                        .Select((d) => new SelectListItem(d.Name, d.Id.ToString()))
-                        .ToList();
-            }
-        }
-    }
-}
+//                return AllDepartments
+//                        .Select((d) => new SelectListItem(d.Name, d.Id.ToString()))
+//                        .ToList();
+//            }
+//        }
+//    }
+//}

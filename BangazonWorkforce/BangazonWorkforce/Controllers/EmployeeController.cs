@@ -137,7 +137,7 @@ namespace BangazonWorkforce.Controllers
         public async Task<IActionResult> Create()
         {
             List<Department> allDepartments = await GetAllDepartments();
-            EmployeeAddEditViewModel viewmodel = new EmployeeAddEditViewModel
+            Models.ViewModels.EmployeeEditViewModel viewmodel = new Models.ViewModels.EmployeeEditViewModel
             {
                 AllDepartments = allDepartments
             };
@@ -149,7 +149,7 @@ namespace BangazonWorkforce.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(EmployeeAddEditViewModel viewmodel)
+        public async Task<IActionResult> Create(Models.ViewModels.EmployeeEditViewModel viewmodel)
         {
             if (!ModelState.IsValid)
             {
@@ -189,7 +189,7 @@ namespace BangazonWorkforce.Controllers
                 return NotFound();
             }
 
-            EmployeeAddEditViewModel viewmodel = new EmployeeAddEditViewModel
+            Models.ViewModels.EmployeeEditViewModel viewmodel = new Models.ViewModels.EmployeeEditViewModel
             {
                 Employee = employee,
                 AllDepartments = allDepartments
@@ -203,7 +203,7 @@ namespace BangazonWorkforce.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EmployeeAddEditViewModel viewmodel)
+        public async Task<IActionResult> Edit(int id, Models.ViewModels.EmployeeEditViewModel viewmodel)
         {
             if (id != viewmodel.Employee.Id)
             {
