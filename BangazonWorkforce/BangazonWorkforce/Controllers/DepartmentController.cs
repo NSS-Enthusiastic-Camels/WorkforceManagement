@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System.Data;
 using BangazonWorkforce.Models;
 
+
 /*
  * Class: DepartmentController
  * Purpose: The DepartmentController searches the database and returns all Departments  
@@ -38,24 +39,37 @@ namespace BangazonWorkforce.Controllers
         {
             _config = config;
         }
-
+        //Gretchen Ward- this adds the number of employees to the departments
         public async Task<IActionResult> Index()
         {
             using (IDbConnection conn = Connection)
             {
-                string sql = "SELECT Id, Name, Budget FROM Department";
+                string sql = $@"
+            select               
+                d.Name,
+                d.Budget,                          
+				COUNT(e.DepartmentId) CountEmployees														
+            FROM Department as d
+            JOIN Employee as e on e.DepartmentId = d.Id
+            Group By d.Name, d.Budget";
+
+
+      
                 IEnumerable<Department> departments = await conn.QueryAsync<Department>(sql);
 
                 return View(departments);
             }
         }
 
-        public async Task<IActionResult> Details(int? id) 
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+
+
+
 
             Department department = await GetById(id.Value);
             if (department == null)
@@ -165,7 +179,7 @@ namespace BangazonWorkforce.Controllers
             {
                 string sql = $@"DELETE FROM Department WHERE id = {id}";
                 int rowsDeleted = await conn.ExecuteAsync(sql);
-                
+
                 if (rowsDeleted > 0)
                 {
                     return NotFound();
