@@ -7,6 +7,6 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class ComputerDetailViewModel
     {
-        public Computer Computer { get; set; }
+        public List<Computer> Computer { get; set; }
     }
 }

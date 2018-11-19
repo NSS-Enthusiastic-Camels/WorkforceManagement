@@ -27,28 +27,28 @@ namespace BangazonWorkforce.Controllers
         {
             _config = config;
         }
-
-        public async Task<IActionResult> Index()
+    [HttpGet]
+    public async Task<IActionResult> Index()
         {
             using (IDbConnection conn = Connection)
             {
-                string sql = @"SELECT 
-                                  c.Id,
-                                  c.PurchaseDate,
-                                  c.DecomissionDate,
-                                  c.Make,
-                                  c.Manufacturer,                           
-                                  FROM Computer c
-                                  ORDER BY c.Id";
+                string sql = $@"SELECT c.Id, 
+                                       c.PurchaseDate, 
+                                       c.DecomissionDate, 
+                                       c.Make, 
+                                       c.Manufacturer 
+                                       FROM Computer c;";
+                              
 
 
-                IEnumerable<Computer> computers = await conn.QueryAsync<Computer>(sql);
-                return View.(model);
+                List<Computer> computer = (await conn.QueryAsync<Computer>(sql)).ToList();
+
+                return View(computer);
             }
         }
 
-            }
-        }
+    }
+}
 
     
      
