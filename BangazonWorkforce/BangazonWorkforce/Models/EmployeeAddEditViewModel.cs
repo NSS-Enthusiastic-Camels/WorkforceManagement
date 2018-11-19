@@ -5,7 +5,7 @@ using System.Linq;
 namespace BangazonWorkforce.Models
 {
     public class EmployeeAddEditViewModel
-    {
+    {// this gets the information from the sql database
         public Employee Employee { get; set; }
         public List<Department> AllDepartments { get; set; }
         public List<SelectListItem> AllDepartmentOptions
@@ -18,7 +18,7 @@ namespace BangazonWorkforce.Models
                 }
 
                 return AllDepartments
-                        .Select((d, id) => new SelectListItem(d.Name, id.ToString()))
+                        .Select((d) => new SelectListItem(d.Name, d.Id.ToString()))
                         .ToList();
             }
         }

@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 namespace BangazonWorkforce.Models.ViewModels
 {
-    public class EmployeeIndexViewModel
-    {
+    public class DepartmentListViewModel
+    { 
+        public Department Department { get; set; }
+        
 
-        public IEnumerable<Employee> Employees { get; set;}
-
-      
-
-      
-
+        
     }
 }

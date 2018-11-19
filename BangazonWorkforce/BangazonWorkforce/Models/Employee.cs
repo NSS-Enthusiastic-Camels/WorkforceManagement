@@ -18,14 +18,15 @@ namespace BangazonWorkforce.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        //[Display(Name = "Full Name")]
-        //public string FullName
-        //{
-        //    get
-        //    {
-        //        return $"{FirstName} {LastName}";
-        //    }
-        //}
+        [Display(Name = "Employee Name")]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
 
         [Display(Name = "Is Supervisor?")]
         public bool IsSupervisor { get; set; }
@@ -36,9 +37,8 @@ namespace BangazonWorkforce.Models
 
         public Department Department { get; set; }
 
+       
 
-        //this field exists to hold a field for the compueter assigned to this.Employee
-        public Computer Computer { get; set; }
-        public IEnumerable<TrainingProgram> TrainingProgram { get; set;}
+       
     }
 }
