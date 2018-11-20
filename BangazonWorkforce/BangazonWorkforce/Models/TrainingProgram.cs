@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace BangazonWorkforce.Models
 {
     public class TrainingProgram
     {
-      
        public int Id { get; set; }
 
-       [Required(ErrorMessage = "You must provide a name for this Name.")]
-       public string Name { get; set; }
+        [Required(ErrorMessage = "You must provide a name for this training program.")]
+        public string Name { get; set; }
 
-       [Required(ErrorMessage = "You must provide a Start Date for this Training Program.")]
-       public DateTime StartDate { get; set; }
+        [Required(ErrorMessage = "You must provide a start date for this training program.")]
+        public DateTime StartDate { get; set; }
 
-       [Required(ErrorMessage = "You must provide a End Date for this department.")]
-       public DateTime EndDate { get; set; }
+        [Required(ErrorMessage = "You must provide a end date for this training program.")]
+        public DateTime EndDate { get; set; }
 
-       [Required(ErrorMessage = "You must provide the Max Attendees for this Training Program.")]
-       public int MaxAttendees { get; set; }
+        [Required(ErrorMessage = "You must provide an attendance number for this training program.")]
+        public int MaxAttendees { get; set; }
+
+
+        public List<Employee> Attending { get; set; } = new List<Employee>();
     }
 }
