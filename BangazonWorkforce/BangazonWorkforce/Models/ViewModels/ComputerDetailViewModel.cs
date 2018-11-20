@@ -7,6 +7,10 @@ namespace BangazonWorkforce.Models.ViewModels
 {
     public class ComputerDetailViewModel
     {
-        public List<Computer> Computer { get; set; }
+        public string Manufacturer { get; set; }
+
+        public string Make { get; set; }
+
+        public DateTime PurchaseDate { get; set; }
     }
 }

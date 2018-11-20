@@ -27,7 +27,7 @@ namespace BangazonWorkforce.Controllers
         {
             _config = config;
         }
-        [HttpGet]
+        
         public async Task<IActionResult> Index()
         {
             using (IDbConnection conn = Connection)
@@ -60,27 +60,25 @@ namespace BangazonWorkforce.Controllers
                 {
                     return NotFound();
                 }
-                string sql = $@"SELECT 
-                                      c.Id,
-                                      c.PurchaseDate,
-                                      c.DecomissionDate,
-                                      c.Make,
-                                      c.Manufacturer,
-                                      
-        
-                         FROM Computer c 
-                              
-                         WHERE c.Id = {id} ";
+
+
+                string sql = $@"SELECT c.Id,
+                                    c.PurchaseDate,
+                                    c.DecommissionDate,
+                                    c.Make,
+                                    c.Manufacturer
+                                FROM Computer c
+                                WHERE c.Id = {id};";
 
                 ComputerDetailViewModel model = new ComputerDetailViewModel();
 
-                IEnumerable<Computer> computers = (await conn.QueryAsync<Computer>(sql)).ToList();
+                
+                    IEnumerable<Computer> computers = await conn.QueryAsync<Computer>(sql);
 
-                return View(computer);
+                    return View(computers);
+                }
             }
-
-        }
-
+        
 
 
         [HttpDelete]
