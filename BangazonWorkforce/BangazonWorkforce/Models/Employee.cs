@@ -37,6 +37,7 @@ namespace BangazonWorkforce.Models
 
         public Department Department { get; set; }
 
+        public Computer Computer { get; set; }
        
 
        

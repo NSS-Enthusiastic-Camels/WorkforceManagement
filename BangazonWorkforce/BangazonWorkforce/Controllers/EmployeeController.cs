@@ -183,6 +183,7 @@ namespace BangazonWorkforce.Controllers
             }
 
             List<Department> allDepartments = await GetAllDepartments();
+            List<Computer> allComputers = await GetAllComputers();
             Employee employee = await GetById(id.Value);
             if (employee == null)
             {
@@ -192,7 +193,8 @@ namespace BangazonWorkforce.Controllers
             Models.ViewModels.EmployeeEditViewModel viewmodel = new Models.ViewModels.EmployeeEditViewModel
             {
                 Employee = employee,
-                AllDepartments = allDepartments
+                AllDepartments = allDepartments,
+                AllComputers = allComputers
             };
 
             return View(viewmodel);
@@ -210,12 +212,12 @@ namespace BangazonWorkforce.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
-            {
-                List<Department> allDepartments = await GetAllDepartments();
-                viewmodel.AllDepartments = allDepartments;
-                return View(viewmodel);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    List<Department> allDepartments = await GetAllDepartments();
+            //    viewmodel.AllDepartments = allDepartments;
+            //    return View(viewmodel);
+            //}
 
             Employee employee = viewmodel.Employee;
 
@@ -228,8 +230,12 @@ namespace BangazonWorkforce.Controllers
                                        DepartmentId = {employee.DepartmentId}
                                  WHERE id = {id}";
 
-                await conn.ExecuteAsync(sql);
-                return RedirectToAction(nameof(Index));
+                string ComputerSql = $@"INSERT INTO ComputerEmployee 
+                                   (EmployeeId, ComputerId, AssignDate) 
+                                 VALUES ({id}, {viewmodel.Employee.Computer.Id}, '{DateTime.Now}')";
+
+                await conn.ExecuteAsync(sql + ComputerSql);
+                return RedirectToAction(("Index"));
             }
         }
 
@@ -297,6 +303,20 @@ namespace BangazonWorkforce.Controllers
                 string sql = $@"SELECT Id, Name, Budget FROM Department";
 
                 IEnumerable<Department> departments = await conn.QueryAsync<Department>(sql);
+                return departments.ToList();
+            }
+        }
+
+        private async Task<List<Computer>> GetAllComputers()
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sql = $@"SELECT c.Id, c.PurchaseDate, c.DecomissionDate, c.Make, c.Manufacturer 
+                    FROM Computer c
+                     LEFT JOIN ComputerEmployee ce on ce.ComputerId = c.Id
+                               WHERE ce.Id IS NULL";;
+
+                IEnumerable<Computer> departments = await conn.QueryAsync<Computer>(sql);
                 return departments.ToList();
             }
         }

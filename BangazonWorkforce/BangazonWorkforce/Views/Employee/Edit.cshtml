@@ -26,18 +26,30 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="Employee.IsSupervisor" /> 
+                        <input asp-for="Employee.IsSupervisor" />
                         @Html.DisplayNameFor(model => model.Employee.IsSupervisor)
                     </label>
                 </div>
             </div>
+            @*department select input*@
             <div class="form-group">
                 <label asp-for="Employee.DepartmentId" class="control-label"></label>
-                <select asp-for="Employee.DepartmentId" 
+                <select asp-for="Employee.DepartmentId"
                         asp-items="Model.AllDepartmentOptions"
                         class="form-control"></select>
                 <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
             </div>
+
+            @*computer select input*@
+
+            <div class="form-group">
+                <label asp-for="Employee.Computer.Id" class="control-label">Computer Model</label>
+                <select asp-for="Employee.Computer.Id"
+                        asp-items="Model.AllComputerOptions"
+                        class="form-control"></select>
+                <span asp-validation-for="Employee.Computer.Id" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
