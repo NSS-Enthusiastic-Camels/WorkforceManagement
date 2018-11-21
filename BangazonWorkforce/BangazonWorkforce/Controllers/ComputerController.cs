@@ -27,7 +27,7 @@ namespace BangazonWorkforce.Controllers
         {
             _config = config;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             using (IDbConnection conn = Connection)
@@ -53,69 +53,74 @@ namespace BangazonWorkforce.Controllers
             {
                 return NotFound();
             }
+            
+
+            string sql = $@"SELECT
+            
+                                c.Id,
+                                c.PurchaseDate,
+                                c.DecomissionDate,
+                                c.Make,
+                                c.Manufacturer
+                            FROM Computer c
+                            WHERE c.Id = {id}; ";
+
             using (IDbConnection conn = Connection)
+
+                // not going to use view model here?
+            //ComputerDetailViewModel model = new ComputerDetailViewModel();
             {
-                Computer computer = await GetById(id.Value);
-                if (computer == null)
+                Computer computerQuery = await conn.QuerySingleAsync<Computer>(sql);
+
+                if (computerQuery == null)
                 {
                     return NotFound();
                 }
+                return View(computerQuery);
+            }
+        }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-                string sql = $@"SELECT c.Id,
-                                    c.PurchaseDate,
-                                    c.DecommissionDate,
-                                    c.Make,
-                                    c.Manufacturer
-                                FROM Computer c
-                                WHERE c.Id = {id};";
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("PurchaseDate, DecommissionDate, Make, Manufacturer")] Computer computer)
+        {
+            if (ModelState.IsValid)
+            {
+                string sql = $@"
+                    INSERT INTO Computer
+                        ( PurchaseDate, DecommissionDate, Make, Manufacturer )
+                        VALUES
+                        ( '{computer.PurchaseDate}', null, '{computer.Make}', '{computer.Manufacturer}' )
+                    ";
 
-                ComputerDetailViewModel model = new ComputerDetailViewModel();
+                using (IDbConnection conn = Connection)
+                {
+                    int rowsAffected = await conn.ExecuteAsync(sql);
 
-                
-                    IEnumerable<Computer> computers = await conn.QueryAsync<Computer>(sql);
-
-                    return View(computers);
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
             }
-        
 
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Computer computer = await GetById(id.Value);
-            if (computer == null)
-            {
-                return NotFound();
-            }
             return View(computer);
-        }
-
-        private Task<Computer> GetById(int value)
-        {
-            throw new NotImplementedException();
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            using (IDbConnection conn = Connection)
-            {
-                string sql = $@"DELETE FROM Computer WHERE id = {id}";
-                await conn.ExecuteAsync(sql);
-                return RedirectToAction(nameof(Index));
-            }
         }
     }
 }
+
+    
+
+
+
+
+
 
 
 
