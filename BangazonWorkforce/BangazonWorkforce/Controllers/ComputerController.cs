@@ -83,6 +83,7 @@ namespace BangazonWorkforce.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+        
             return View();
         }
 
@@ -90,30 +91,43 @@ namespace BangazonWorkforce.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PurchaseDate, DecommissionDate, Make, Manufacturer")] Computer computer)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string sql = $@"
-                    INSERT INTO Computer
-                        ( PurchaseDate, DecommissionDate, Make, Manufacturer )
-                        VALUES
-                        ( '{computer.PurchaseDate}', null, '{computer.Make}', '{computer.Manufacturer}' )
-                    ";
+                return View(computer);
+            }
 
                 using (IDbConnection conn = Connection)
                 {
-                    int rowsAffected = await conn.ExecuteAsync(sql);
+                    string sql = $@"
+                    INSERT INTO Computer
+                        ( PurchaseDate, DecommissionDate, Make, Manufacturer )
+                        VALUES
+                        ( {computer.PurchaseDate}, null, {computer.Make}, {computer.Manufacturer} );";
 
-                    if (rowsAffected > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
+                    await conn.ExecuteAsync(sql);
+                    return RedirectToAction(nameof(Index));
                 }
-            }
-
-            return View(computer);
         }
+        private async Task<Computer> GetById(int id)
+        {
+            using (IDbConnection conn = Connection)
+            {
+                string sql = $@"SELECT Id, 
+                                        Purchasedate, 
+                                        DecomissionDate,
+                                        Make,
+                                        Manufacturer
+                                  FROM Computer
+                                 WHERE id = {id}";
+
+                IEnumerable<Computer> computers = await conn.QueryAsync<Computer>(sql);
+                return computers.SingleOrDefault();
+            }
+        }
+
     }
 }
+
 
     
 
